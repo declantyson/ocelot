@@ -14,7 +14,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  *
  *  Ocelot.js
  *  Declan Tyson
- *  v0.3.0
+ *  v0.3.1
  *  12/01/2017
  *
  */
@@ -120,10 +120,20 @@ var Pjax = function () {
             var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
             document.addEventListener("click", function (e) {
-                if (e.target.nodeName === "A") {
-                    e.preventDefault();
-                    opts.endpoint = e.target.attributes["href"].value;
-                    _this2.changePage(opts);
+                e = e || window.event;
+                var target = e.target || e.srcElement;
+
+                // Bubble up through the DOM to target links
+                while (target) {
+                    if (target instanceof HTMLAnchorElement) {
+                        e.preventDefault();
+
+                        opts.endpoint = target.attributes["href"].value;
+                        _this2.changePage(opts);
+                        break;
+                    }
+
+                    target = target.parentNode;
                 }
             });
         }

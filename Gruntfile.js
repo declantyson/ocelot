@@ -42,7 +42,15 @@ module.exports = function(grunt) {
         },
         uglify: {
             options: {
-                banner: '/* <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n',
+                banner: '/* \n' +
+                '  * \n' +
+                '  *  <%= pkg.name %> \n' +
+                '  *  <%= pkg.author %> \n' +
+                '  *  v<%= pkg.version %> \n' +
+                '  *  <%= grunt.template.today("dd/mm/yyyy") %> \n' +
+                '  * \n' +
+                '  */' +
+                '\n\n',
                 mangle: true
             },
             build: {

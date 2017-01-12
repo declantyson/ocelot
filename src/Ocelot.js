@@ -2,7 +2,7 @@
  *
  *  Ocelot.js
  *  Declan Tyson
- *  v0.3.0
+ *  v0.3.1
  *  12/01/2017
  *
  */
@@ -92,10 +92,20 @@ class Pjax {
 
     all(opts = {}) {
         document.addEventListener("click", (e) => {
-            if(e.target.nodeName === "A") {
-                e.preventDefault();
-                opts.endpoint = e.target.attributes["href"].value;
-                this.changePage(opts);
+            e = e || window.event;
+            let target = e.target || e.srcElement;
+
+            // Bubble up through the DOM to target links
+            while(target) {
+                if (target instanceof HTMLAnchorElement) {
+                    e.preventDefault();
+
+                    opts.endpoint = target.attributes["href"].value;
+                    this.changePage(opts);
+                    break;
+                }
+
+                target = target.parentNode;
             }
         });
     }
