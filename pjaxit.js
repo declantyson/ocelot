@@ -1,7 +1,10 @@
 /*
+*
 *	pjaxit.js
-*	v0.1
-*	Declan Tyson 24/03/2015
+*	Declan Tyson
+*	v0.2
+*	12/01/2017
+*
 */
 
 pjaxit = {
@@ -32,7 +35,7 @@ pjaxit = {
 				
 				// Perform callback function (if any)
 				setTimeout(function(){
-					if(callback != null) callback();
+					if(callback != null) callback(ajaxRequest.responseText);
 				}, callbacktimeout);
 				// Push to browser history to allow for back/forward (unless triggered by popstate event)
 				if(push) history.pushState('', 'New URL: ' + endpoint, endpoint);
@@ -40,7 +43,8 @@ pjaxit = {
 		};
 	},
 	pageChangeEvent : {}
-}
+};
+
 if(history.pushState) {
 	window.onpopstate = function(event) {
 		// Browser forward/back event
