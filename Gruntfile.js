@@ -30,6 +30,15 @@ module.exports = function(grunt) {
         browserify: {
             dist: {
                 options: {
+                    banner: '/* \n' +
+                        '  * \n' +
+                        '  *  <%= pkg.name %> \n' +
+                        '  *  <%= pkg.author %> \n' +
+                        '  *  v<%= pkg.version %> \n' +
+                        '  *  <%= grunt.template.today("dd/mm/yyyy") %> \n' +
+                        '  * \n' +
+                        '  */' +
+                        '\n\n',
                     transform: [["babelify"]],
                     browserifyOptions: {
                         standalone: '<%= pkg.name %>'
@@ -43,14 +52,14 @@ module.exports = function(grunt) {
         uglify: {
             options: {
                 banner: '/* \n' +
-                '  * \n' +
-                '  *  <%= pkg.name %> \n' +
-                '  *  <%= pkg.author %> \n' +
-                '  *  v<%= pkg.version %> \n' +
-                '  *  <%= grunt.template.today("dd/mm/yyyy") %> \n' +
-                '  * \n' +
-                '  */' +
-                '\n\n',
+                    '  * \n' +
+                    '  *  <%= pkg.name %> \n' +
+                    '  *  <%= pkg.author %> \n' +
+                    '  *  v<%= pkg.version %> \n' +
+                    '  *  <%= grunt.template.today("dd/mm/yyyy") %> \n' +
+                    '  * \n' +
+                    '  */' +
+                    '\n\n',
                 mangle: true
             },
             build: {

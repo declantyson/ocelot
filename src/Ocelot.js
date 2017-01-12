@@ -1,12 +1,3 @@
-/*
- *
- *  Ocelot.js
- *  Declan Tyson
- *  v0.3.1
- *  12/01/2017
- *
- */
-
 class Pjax {
     constructor(el = 'ocelot-content') {
         // The element to watch

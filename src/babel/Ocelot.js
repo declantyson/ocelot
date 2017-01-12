@@ -10,15 +10,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/*
- *
- *  Ocelot.js
- *  Declan Tyson
- *  v0.3.1
- *  12/01/2017
- *
- */
-
 var Pjax = function () {
     function Pjax() {
         var el = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'ocelot-content';
