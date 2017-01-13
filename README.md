@@ -1,5 +1,7 @@
 # Ocelot
 
+[![npm version](https://badge.fury.io/js/ocelot-pjax.svg)](https://badge.fury.io/js/ocelot-pjax)
+
 Introducing Ocelot, the elegant way to make your sites quick, simple and beautiful using PJAX. Ocelot only updates
 the content of a specified element using AJAX but is designed with beautiful transitions and standard browser navigation
 in mind.
