@@ -7,7 +7,7 @@ class Pjax {
         this.events = {};
 
         // Default changePage options
-        this.defaultOpts = { endpoint : false, method : 'GET', timeout : 0, callback : null, callbackTimeout : 0, push : true};
+        this.defaultOpts = { endpoint : false, method : 'GET', timeout : 0, callback : null, callbackTimeout : 0, push : true };
 
         let self = this;
         if(history.pushState) {
@@ -90,6 +90,40 @@ class Pjax {
             while(target) {
                 if (target instanceof HTMLAnchorElement) {
                     e.preventDefault();
+
+                    opts.endpoint = target.attributes["href"].value;
+                    this.changePage(opts);
+                    break;
+                }
+
+                target = target.parentNode;
+            }
+        });
+    }
+
+    fadeAll(opts = {}) {
+        if(!opts.timeout) opts.timeout = 250;
+        if(!opts.callbackTimeout) opts.callbackTimeout = 250;
+        if(!opts.fadeTo) opts.fadeTo = 0;
+
+        document.getElementById(this.el).style.transition = "opacity " + opts.timeout/1000 + "s ease-out";
+
+        document.addEventListener("click", (e) => {
+            e = e || window.event;
+            let target = e.target || e.srcElement;
+
+            // Bubble up through the DOM to target links
+            while(target) {
+                if (target instanceof HTMLAnchorElement) {
+                    e.preventDefault();
+
+                    document.getElementById(this.el).style.opacity = opts.fadeTo;
+
+                    let passedCallback = opts.callback;
+                    opts.callback = (data) => {
+                        document.getElementById(this.el).style.opacity = 1;
+                        passedCallback(data);
+                    };
 
                     opts.endpoint = target.attributes["href"].value;
                     this.changePage(opts);

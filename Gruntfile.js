@@ -32,7 +32,7 @@ module.exports = function(grunt) {
                 options: {
                     banner: '/* \n' +
                         '  * \n' +
-                        '  *  <%= pkg.name %> \n' +
+                        '  *  Ocelot \n' +
                         '  *  <%= pkg.author %> \n' +
                         '  *  v<%= pkg.version %> \n' +
                         '  *  <%= grunt.template.today("dd/mm/yyyy") %> \n' +
@@ -41,11 +41,11 @@ module.exports = function(grunt) {
                         '\n\n',
                     transform: [["babelify"]],
                     browserifyOptions: {
-                        standalone: '<%= pkg.name %>'
+                        standalone: 'Ocelot'
                     }
                 },
                 files: {
-                    "dist/<%= pkg.name %>.js": "src/babel/*.js"
+                    "dist/Ocelot.js": "src/babel/*.js"
                 }
             }
         },
@@ -53,7 +53,7 @@ module.exports = function(grunt) {
             options: {
                 banner: '/* \n' +
                     '  * \n' +
-                    '  *  <%= pkg.name %> \n' +
+                    '  *  Ocelot \n' +
                     '  *  <%= pkg.author %> \n' +
                     '  *  v<%= pkg.version %> \n' +
                     '  *  <%= grunt.template.today("dd/mm/yyyy") %> \n' +
@@ -64,7 +64,7 @@ module.exports = function(grunt) {
             },
             build: {
                 src: ['dist/*.js', '!dist/*.min.js'],
-                dest: 'dist/<%= pkg.name %>.min.js'
+                dest: 'dist/Ocelot.min.js'
             }
         }
     });

@@ -128,6 +128,49 @@ var Pjax = function () {
                 }
             });
         }
+    }, {
+        key: 'fadeAll',
+        value: function fadeAll() {
+            var _this3 = this;
+
+            var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+            if (!opts.timeout) opts.timeout = 250;
+            if (!opts.callbackTimeout) opts.callbackTimeout = 250;
+            if (!opts.fadeTo) opts.fadeTo = 0;
+
+            document.getElementById(this.el).style.transition = "opacity " + opts.timeout / 1000 + "s ease-out";
+
+            document.addEventListener("click", function (e) {
+                e = e || window.event;
+                var target = e.target || e.srcElement;
+
+                // Bubble up through the DOM to target links
+                while (target) {
+                    if (target instanceof HTMLAnchorElement) {
+                        var _ret = function () {
+                            e.preventDefault();
+
+                            document.getElementById(_this3.el).style.opacity = opts.fadeTo;
+
+                            var passedCallback = opts.callback;
+                            opts.callback = function (data) {
+                                document.getElementById(_this3.el).style.opacity = 1;
+                                passedCallback(data);
+                            };
+
+                            opts.endpoint = target.attributes["href"].value;
+                            _this3.changePage(opts);
+                            return 'break';
+                        }();
+
+                        if (_ret === 'break') break;
+                    }
+
+                    target = target.parentNode;
+                }
+            });
+        }
     }]);
 
     return Pjax;
