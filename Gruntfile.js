@@ -8,7 +8,7 @@ module.exports = function(grunt) {
                 tasks: ['babel', 'browserify']
             },
             uglify: {
-                files: ['dist/*.js', '!dist/*.min.js'],
+                files: ['dist/*.js', '!dist/*.min.js', 'package.json'],
                 tasks: ['uglify']
             }
         },

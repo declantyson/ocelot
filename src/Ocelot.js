@@ -122,7 +122,7 @@ class Pjax {
                     let passedCallback = opts.callback;
                     opts.callback = (data) => {
                         document.getElementById(this.el).style.opacity = 1;
-                        passedCallback(data);
+                        if(passedCallback) passedCallback(data);
                     };
 
                     opts.endpoint = target.attributes["href"].value;

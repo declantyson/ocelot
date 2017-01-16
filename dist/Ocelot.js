@@ -183,7 +183,7 @@ var Pjax = function () {
                             var passedCallback = opts.callback;
                             opts.callback = function (data) {
                                 document.getElementById(_this3.el).style.opacity = 1;
-                                passedCallback(data);
+                                if (passedCallback) passedCallback(data);
                             };
 
                             opts.endpoint = target.attributes["href"].value;
