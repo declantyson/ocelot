@@ -2,7 +2,7 @@
   * 
   *  Ocelot 
   *  Declan Tyson 
-  *  v0.3.2 
+  *  v0.3.3 
   *  16/01/2017 
   * 
   */
@@ -52,21 +52,38 @@ var Pjax = function () {
         // Default changePage options
         this.defaultOpts = { endpoint: false, method: 'GET', timeout: 0, callback: null, callbackTimeout: 0, push: true };
 
-        var self = this;
-        if (history.pushState) {
-            window.onpopstate = function () {
-                // Change page without pushing new entry to the history
-                self.changePage({
-                    endpoint: window.location.pathname,
-                    push: false
-                });
-            };
-        } else {
-            console.warn('Ocelot: this browser does not support history.pushState. Hash changing is coming soon.');
-        }
+        // Default pop callbacks
+        this.prePopCallback = function () {};
+        this.postPopCallback = null;
+
+        // Register pop state events
+        this.registerPop();
     }
 
     _createClass(Pjax, [{
+        key: 'registerPop',
+        value: function registerPop() {
+            var _this = this;
+
+            var self = this;
+
+            if (history.pushState) {
+                window.onpopstate = function () {
+                    var popOpts = {
+                        endpoint: window.location.pathname,
+                        push: false
+                    };
+
+                    // Change page without pushing new entry to the history
+                    if (self.prePopCallback) _this.prePopCallback();
+                    if (self.postPopCallback) popOpts.callback = _this.postPopCallback;
+                    self.changePage(popOpts);
+                };
+            } else {
+                console.warn('Ocelot: this browser does not support history.pushState. Hash changing is coming soon.');
+            }
+        }
+    }, {
         key: 'setEvent',
         value: function setEvent(url, event) {
             this.events[url] = event;
@@ -74,7 +91,7 @@ var Pjax = function () {
     }, {
         key: 'changePage',
         value: function changePage() {
-            var _this = this;
+            var _this2 = this;
 
             var customOpts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -102,10 +119,10 @@ var Pjax = function () {
                     // Get only AJAX-friendly content, we don't want to duplicate the CSS and JavaScript
                     var temp = document.createElement('div');
                     temp.innerHTML = xhr.responseText;
-                    document.querySelector('#' + _this.el).innerHTML = temp.querySelector('#' + _this.el).innerHTML;
+                    document.querySelector('#' + _this2.el).innerHTML = temp.querySelector('#' + _this2.el).innerHTML;
 
                     // Perform any page-specific events
-                    var pageEvent = _this.events[opts.endpoint];
+                    var pageEvent = _this2.events[opts.endpoint];
                     if (pageEvent) {
                         if (typeof pageEvent !== 'function') {
                             console.warn('Ocelot: ' + opts.endpoint + ' event must be a function, instead found ' + (typeof pageEvent === 'undefined' ? 'undefined' : _typeof(pageEvent)) + '.');
@@ -133,7 +150,7 @@ var Pjax = function () {
     }, {
         key: 'all',
         value: function all() {
-            var _this2 = this;
+            var _this3 = this;
 
             var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
@@ -147,7 +164,7 @@ var Pjax = function () {
                         e.preventDefault();
 
                         opts.endpoint = target.attributes["href"].value;
-                        _this2.changePage(opts);
+                        _this3.changePage(opts);
                         break;
                     }
 
@@ -158,13 +175,16 @@ var Pjax = function () {
     }, {
         key: 'fadeAll',
         value: function fadeAll() {
-            var _this3 = this;
+            var _this4 = this;
 
             var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
             if (!opts.timeout) opts.timeout = 250;
             if (!opts.callbackTimeout) opts.callbackTimeout = 250;
             if (!opts.fadeTo) opts.fadeTo = 0;
+            if (!opts.prePopCallback) this.prePopCallback = function () {
+                _this4.fadeContent(opts.fadeTo);
+            };
 
             document.getElementById(this.el).style.transition = "opacity " + opts.timeout / 1000 + "s ease-out";
 
@@ -178,16 +198,18 @@ var Pjax = function () {
                         var _ret = function () {
                             e.preventDefault();
 
-                            document.getElementById(_this3.el).style.opacity = opts.fadeTo;
+                            _this4.fadeContent(opts.fadeTo);
 
                             var passedCallback = opts.callback;
                             opts.callback = function (data) {
-                                document.getElementById(_this3.el).style.opacity = 1;
+                                _this4.fadeContent(1);
                                 if (passedCallback) passedCallback(data);
                             };
 
+                            _this4.postPopCallback = opts.callback;
+
                             opts.endpoint = target.attributes["href"].value;
-                            _this3.changePage(opts);
+                            _this4.changePage(opts);
                             return 'break';
                         }();
 
@@ -197,6 +219,11 @@ var Pjax = function () {
                     target = target.parentNode;
                 }
             });
+        }
+    }, {
+        key: 'fadeContent',
+        value: function fadeContent(fadeTo) {
+            document.getElementById(this.el).style.opacity = fadeTo;
         }
     }]);
 

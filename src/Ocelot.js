@@ -9,14 +9,28 @@ class Pjax {
         // Default changePage options
         this.defaultOpts = { endpoint : false, method : 'GET', timeout : 0, callback : null, callbackTimeout : 0, push : true };
 
+        // Default pop callbacks
+        this.prePopCallback = () => {};
+        this.postPopCallback = null;
+
+        // Register pop state events
+        this.registerPop();
+    }
+
+    registerPop() {
         let self = this;
+
         if(history.pushState) {
-            window.onpopstate = function() {
-                // Change page without pushing new entry to the history
-                self.changePage({
+            window.onpopstate = () => {
+                let popOpts = {
                     endpoint : window.location.pathname,
                     push: false
-                });
+                };
+
+                // Change page without pushing new entry to the history
+                if(self.prePopCallback) this.prePopCallback();
+                if(self.postPopCallback) popOpts.callback = this.postPopCallback;
+                self.changePage(popOpts);
             };
         } else {
             console.warn('Ocelot: this browser does not support history.pushState. Hash changing is coming soon.')
@@ -105,8 +119,11 @@ class Pjax {
         if(!opts.timeout) opts.timeout = 250;
         if(!opts.callbackTimeout) opts.callbackTimeout = 250;
         if(!opts.fadeTo) opts.fadeTo = 0;
+        if(!opts.prePopCallback) this.prePopCallback = () => { this.fadeContent(opts.fadeTo); };
 
         document.getElementById(this.el).style.transition = "opacity " + opts.timeout/1000 + "s ease-out";
+
+
 
         document.addEventListener("click", (e) => {
             e = e || window.event;
@@ -117,13 +134,15 @@ class Pjax {
                 if (target instanceof HTMLAnchorElement) {
                     e.preventDefault();
 
-                    document.getElementById(this.el).style.opacity = opts.fadeTo;
+                    this.fadeContent(opts.fadeTo);
 
                     let passedCallback = opts.callback;
                     opts.callback = (data) => {
-                        document.getElementById(this.el).style.opacity = 1;
+                        this.fadeContent(1);
                         if(passedCallback) passedCallback(data);
                     };
+
+                    this.postPopCallback = opts.callback;
 
                     opts.endpoint = target.attributes["href"].value;
                     this.changePage(opts);
@@ -133,7 +152,13 @@ class Pjax {
                 target = target.parentNode;
             }
         });
+
+
     }
+
+    fadeContent(fadeTo) {
+        document.getElementById(this.el).style.opacity = fadeTo;
+    };
 }
 
 export { Pjax };
