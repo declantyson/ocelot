@@ -2,8 +2,8 @@
   * 
   *  Ocelot 
   *  Declan Tyson 
-  *  v0.3.3 
-  *  16/01/2017 
+  *  v0.3.6 
+  *  23/03/2017 
   * 
   */
 
@@ -163,6 +163,11 @@ var Pjax = function () {
                     if (target instanceof HTMLAnchorElement) {
                         e.preventDefault();
 
+                        if (typeof opts.prePopCallback !== "function") {
+                            _this3.prePopCallback();
+                        } else {
+                            opts.prePopCallback();
+                        }
                         opts.endpoint = target.attributes["href"].value;
                         _this3.changePage(opts);
                         break;

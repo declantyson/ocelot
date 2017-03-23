@@ -105,6 +105,11 @@ class Pjax {
                 if (target instanceof HTMLAnchorElement) {
                     e.preventDefault();
 
+                    if(typeof opts.prePopCallback !== "function") {
+                        this.prePopCallback();
+                    } else {
+                        opts.prePopCallback();
+                    }
                     opts.endpoint = target.attributes["href"].value;
                     this.changePage(opts);
                     break;

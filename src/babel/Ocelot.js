@@ -136,6 +136,11 @@ var Pjax = function () {
                     if (target instanceof HTMLAnchorElement) {
                         e.preventDefault();
 
+                        if (typeof opts.prePopCallback !== "function") {
+                            _this3.prePopCallback();
+                        } else {
+                            opts.prePopCallback();
+                        }
                         opts.endpoint = target.attributes["href"].value;
                         _this3.changePage(opts);
                         break;
