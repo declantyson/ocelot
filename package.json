@@ -1,12 +1,13 @@
 {
   "name": "ocelot-pjax",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Lightweight library to make PJAXing quick, simple and beautiful.",
   "private": false,
   "scripts": {
     "start": "node example/ocelot-example.js"
   },
   "author": "Declan Tyson",
+  "main": "dist/Ocelot.min.js",
   "license": "ISC",
   "devDependencies": {
     "babel-preset-es2015": "^6.18.0",
