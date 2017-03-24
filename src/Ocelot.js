@@ -103,6 +103,10 @@ class Pjax {
             // Bubble up through the DOM to target links
             while(target) {
                 if (target instanceof HTMLAnchorElement) {
+                    opts.endpoint = target.attributes["href"].value;
+                    let protocol = opts.endpoint.split(':')[0];
+                    if(["mailto", "tel"].indexOf(protocol) !== -1) break;
+
                     e.preventDefault();
 
                     if(typeof opts.prePopCallback !== "function") {
@@ -110,7 +114,7 @@ class Pjax {
                     } else {
                         opts.prePopCallback();
                     }
-                    opts.endpoint = target.attributes["href"].value;
+
                     this.changePage(opts);
                     break;
                 }
@@ -137,6 +141,10 @@ class Pjax {
             // Bubble up through the DOM to target links
             while(target) {
                 if (target instanceof HTMLAnchorElement) {
+                    opts.endpoint = target.attributes["href"].value;
+                    let protocol = opts.endpoint.split(':')[0];
+                    if(["mailto", "tel"].indexOf(protocol) !== -1) break;
+
                     e.preventDefault();
 
                     this.fadeContent(opts.fadeTo);
@@ -149,7 +157,6 @@ class Pjax {
 
                     this.postPopCallback = opts.callback;
 
-                    opts.endpoint = target.attributes["href"].value;
                     this.changePage(opts);
                     break;
                 }

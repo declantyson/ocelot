@@ -1,6 +1,6 @@
 {
   "name": "ocelot-pjax",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Lightweight library to make PJAXing quick, simple and beautiful.",
   "private": false,
   "scripts": {

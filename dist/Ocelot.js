@@ -2,8 +2,8 @@
   * 
   *  Ocelot 
   *  Declan Tyson 
-  *  v0.3.6 
-  *  23/03/2017 
+  *  v0.3.7 
+  *  24/03/2017 
   * 
   */
 
@@ -161,6 +161,10 @@ var Pjax = function () {
                 // Bubble up through the DOM to target links
                 while (target) {
                     if (target instanceof HTMLAnchorElement) {
+                        opts.endpoint = target.attributes["href"].value;
+                        var protocol = opts.endpoint.split(':')[0];
+                        if (["mailto", "tel"].indexOf(protocol) !== -1) break;
+
                         e.preventDefault();
 
                         if (typeof opts.prePopCallback !== "function") {
@@ -168,7 +172,7 @@ var Pjax = function () {
                         } else {
                             opts.prePopCallback();
                         }
-                        opts.endpoint = target.attributes["href"].value;
+
                         _this3.changePage(opts);
                         break;
                     }
@@ -201,6 +205,10 @@ var Pjax = function () {
                 while (target) {
                     if (target instanceof HTMLAnchorElement) {
                         var _ret = function () {
+                            opts.endpoint = target.attributes["href"].value;
+                            var protocol = opts.endpoint.split(':')[0];
+                            if (["mailto", "tel"].indexOf(protocol) !== -1) return 'break';
+
                             e.preventDefault();
 
                             _this4.fadeContent(opts.fadeTo);
@@ -213,7 +221,6 @@ var Pjax = function () {
 
                             _this4.postPopCallback = opts.callback;
 
-                            opts.endpoint = target.attributes["href"].value;
                             _this4.changePage(opts);
                             return 'break';
                         }();
