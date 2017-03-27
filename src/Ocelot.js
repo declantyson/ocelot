@@ -7,10 +7,11 @@ class Pjax {
         this.events = {};
 
         // Default changePage options
-        this.defaultOpts = { endpoint : false, method : 'GET', timeout : 0, callback : null, callbackTimeout : 0, push : true };
+        this.defaultOpts = {endpoint: false, method: 'GET', timeout: 0, callback: null, callbackTimeout: 0, push: true};
 
         // Default pop callbacks
-        this.prePopCallback = () => {};
+        this.prePopCallback = () => {
+        };
         this.postPopCallback = null;
 
         // Register pop state events
@@ -106,6 +107,7 @@ class Pjax {
                     opts.endpoint = target.attributes["href"].value;
                     let protocol = opts.endpoint.split(':')[0];
                     if(["mailto", "tel"].indexOf(protocol) !== -1) break;
+                    if(isExternal(opts.endpoint)) break;
 
                     e.preventDefault();
 
@@ -144,6 +146,7 @@ class Pjax {
                     opts.endpoint = target.attributes["href"].value;
                     let protocol = opts.endpoint.split(':')[0];
                     if(["mailto", "tel"].indexOf(protocol) !== -1) break;
+                    if(isExternal(opts.endpoint)) break;
 
                     e.preventDefault();
 
@@ -174,3 +177,11 @@ class Pjax {
 }
 
 export { Pjax };
+
+
+const isExternal = (url) => {
+    let match = url.match(/^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/);
+    if(typeof match[1] === "string" && match[1].length > 0 && match[1].toLowerCase() !== location.protocol) return true;
+    if(typeof match[2] === "string" && match[2].length > 0 && match[2].replace(new RegExp(":("+{"http:":80,"https:":443}[location.protocol]+")?$"), "") !== location.host) return true;
+    return false;
+};

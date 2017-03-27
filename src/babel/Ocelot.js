@@ -137,6 +137,7 @@ var Pjax = function () {
                         opts.endpoint = target.attributes["href"].value;
                         var protocol = opts.endpoint.split(':')[0];
                         if (["mailto", "tel"].indexOf(protocol) !== -1) break;
+                        if (isExternal(opts.endpoint)) break;
 
                         e.preventDefault();
 
@@ -181,6 +182,7 @@ var Pjax = function () {
                             opts.endpoint = target.attributes["href"].value;
                             var protocol = opts.endpoint.split(':')[0];
                             if (["mailto", "tel"].indexOf(protocol) !== -1) return 'break';
+                            if (isExternal(opts.endpoint)) return 'break';
 
                             e.preventDefault();
 
@@ -216,4 +218,12 @@ var Pjax = function () {
 }();
 
 exports.Pjax = Pjax;
+
+
+var isExternal = function isExternal(url) {
+    var match = url.match(/^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/);
+    if (typeof match[1] === "string" && match[1].length > 0 && match[1].toLowerCase() !== location.protocol) return true;
+    if (typeof match[2] === "string" && match[2].length > 0 && match[2].replace(new RegExp(":(" + { "http:": 80, "https:": 443 }[location.protocol] + ")?$"), "") !== location.host) return true;
+    return false;
+};
 //# sourceMappingURL=Ocelot.js.map
