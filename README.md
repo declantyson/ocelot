@@ -1,5 +1,6 @@
 # Ocelot
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8c4098372ae64f12b81f08b8f58ba372)](https://www.codacy.com/app/declantyson/ocelot?utm_source=github.com&utm_medium=referral&utm_content=declantyson/ocelot&utm_campaign=badger)
 [![npm version](https://badge.fury.io/js/ocelot-pjax.svg)](https://badge.fury.io/js/ocelot-pjax)
 
 Introducing Ocelot, the elegant way to make your sites quick, simple and beautiful using PJAX. Ocelot only updates the content of a specified element using AJAX but is designed with beautiful transitions and standard browser navigation in mind.
