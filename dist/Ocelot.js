@@ -2,7 +2,7 @@
   * 
   *  Ocelot 
   *  Declan Tyson 
-  *  v0.3.8 
+  *  v0.3.10 
   *  25/09/2017 
   * 
   */
@@ -36,6 +36,13 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+
+var isExternal = function isExternal(url) {
+    var match = url.match(/^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/);
+    if (typeof match[1] === 'string' && match[1].length > 0 && match[1].toLowerCase() !== location.protocol) return true;
+    if (typeof match[2] === 'string' && match[2].length > 0 && match[2].replace(new RegExp(':(' + { 'http:': 80, 'https:': 443 }[location.protocol] + ')?$'), '') !== location.host) return true;
+    return false;
+};
 
 var Pjax = function () {
     function Pjax() {
@@ -154,23 +161,23 @@ var Pjax = function () {
 
             var opts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-            document.addEventListener("click", function (e) {
+            document.addEventListener('click', function (e) {
                 e = e || window.event;
                 var target = e.target || e.srcElement;
 
                 // Bubble up through the DOM to target links
                 while (target) {
                     if (target instanceof HTMLAnchorElement) {
-                        opts.endpoint = target.attributes["href"].value;
+                        opts.endpoint = target.attributes['href'].value;
                         opts.push = true;
 
                         var protocol = opts.endpoint.split(':')[0];
-                        if (["mailto", "tel"].indexOf(protocol) !== -1) break;
+                        if (['mailto', 'tel'].indexOf(protocol) !== -1) break;
                         if (isExternal(opts.endpoint)) break;
 
                         e.preventDefault();
 
-                        if (typeof opts.prePopCallback !== "function") {
+                        if (typeof opts.prePopCallback !== 'function') {
                             _this3.prePopCallback();
                         } else {
                             opts.prePopCallback();
@@ -198,9 +205,9 @@ var Pjax = function () {
                 _this4.fadeContent(opts.fadeTo);
             };
 
-            document.getElementById(this.el).style.transition = "opacity " + opts.timeout / 1000 + "s ease-out";
+            document.getElementById(this.el).style.transition = 'opacity ' + opts.timeout / 1000 + 's ease-out';
 
-            document.addEventListener("click", function (e) {
+            document.addEventListener('click', function (e) {
                 e = e || window.event;
                 var target = e.target || e.srcElement;
 
@@ -208,11 +215,11 @@ var Pjax = function () {
                 while (target) {
                     if (target instanceof HTMLAnchorElement) {
                         var _ret = function () {
-                            opts.endpoint = target.attributes["href"].value;
+                            opts.endpoint = target.attributes['href'].value;
                             opts.push = true;
 
                             var protocol = opts.endpoint.split(':')[0];
-                            if (["mailto", "tel"].indexOf(protocol) !== -1) return 'break';
+                            if (['mailto', 'tel'].indexOf(protocol) !== -1) return 'break';
                             if (isExternal(opts.endpoint)) return 'break';
 
                             e.preventDefault();
@@ -249,13 +256,6 @@ var Pjax = function () {
 }();
 
 exports.Pjax = Pjax;
-
-var isExternal = function isExternal(url) {
-    var match = url.match(/^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/);
-    if (typeof match[1] === "string" && match[1].length > 0 && match[1].toLowerCase() !== location.protocol) return true;
-    if (typeof match[2] === "string" && match[2].length > 0 && match[2].replace(new RegExp(":(" + { "http:": 80, "https:": 443 }[location.protocol] + ")?$"), "") !== location.host) return true;
-    return false;
-};
 
 
 },{}]},{},[1])(1)

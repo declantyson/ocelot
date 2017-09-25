@@ -1,6 +1,5 @@
 node_modules
 .idea
-example
 *.js.map
 npm-debug.log
 .DS_Store

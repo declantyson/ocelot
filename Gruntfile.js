@@ -39,13 +39,13 @@ module.exports = function(grunt) {
                         '  * \n' +
                         '  */' +
                         '\n\n',
-                    transform: [["babelify"]],
+                    transform: [['babelify']],
                     browserifyOptions: {
                         standalone: 'Ocelot'
                     }
                 },
                 files: {
-                    "dist/Ocelot.js": "src/babel/*.js"
+                    'dist/Ocelot.js': 'src/babel/*.js'
                 }
             }
         },
@@ -68,7 +68,7 @@ module.exports = function(grunt) {
             }
         }
     });
- 
+
   // Plugins
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');

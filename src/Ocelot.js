@@ -1,3 +1,10 @@
+const isExternal = (url) => {
+    let match = url.match(/^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/);
+    if(typeof match[1] === 'string' && match[1].length > 0 && match[1].toLowerCase() !== location.protocol) return true;
+    if(typeof match[2] === 'string' && match[2].length > 0 && match[2].replace(new RegExp(':('+{'http:':80,'https:':443}[location.protocol]+')?$'), '') !== location.host) return true;
+    return false;
+};
+
 class Pjax {
     constructor(el = 'ocelot-content') {
         // The element to watch
@@ -34,7 +41,7 @@ class Pjax {
                 self.changePage(popOpts);
             };
         } else {
-            console.warn('Ocelot: this browser does not support history.pushState. Hash changing is coming soon.')
+            console.warn('Ocelot: this browser does not support history.pushState. Hash changing is coming soon.');
         }
     }
 
@@ -93,27 +100,27 @@ class Pjax {
 
             // Push to browser history to allow for back/forward
             if(opts.push) history.pushState('', 'New URL: ' + opts.endpoint, opts.endpoint);
-        }
+        };
     }
 
     all(opts = {}) {
-        document.addEventListener("click", (e) => {
+        document.addEventListener('click', (e) => {
             e = e || window.event;
             let target = e.target || e.srcElement;
 
             // Bubble up through the DOM to target links
             while(target) {
                 if (target instanceof HTMLAnchorElement) {
-                    opts.endpoint = target.attributes["href"].value;
+                    opts.endpoint = target.attributes['href'].value;
                     opts.push = true;
 
                     let protocol = opts.endpoint.split(':')[0];
-                    if(["mailto", "tel"].indexOf(protocol) !== -1) break;
+                    if(['mailto', 'tel'].indexOf(protocol) !== -1) break;
                     if(isExternal(opts.endpoint)) break;
 
                     e.preventDefault();
 
-                    if(typeof opts.prePopCallback !== "function") {
+                    if(typeof opts.prePopCallback !== 'function') {
                         this.prePopCallback();
                     } else {
                         opts.prePopCallback();
@@ -134,22 +141,22 @@ class Pjax {
         if(!opts.fadeTo) opts.fadeTo = 0;
         if(!opts.prePopCallback) this.prePopCallback = () => { this.fadeContent(opts.fadeTo); };
 
-        document.getElementById(this.el).style.transition = "opacity " + opts.timeout/1000 + "s ease-out";
+        document.getElementById(this.el).style.transition = 'opacity ' + opts.timeout/1000 + 's ease-out';
 
 
 
-        document.addEventListener("click", (e) => {
+        document.addEventListener('click', (e) => {
             e = e || window.event;
             let target = e.target || e.srcElement;
 
             // Bubble up through the DOM to target links
             while(target) {
                 if (target instanceof HTMLAnchorElement) {
-                    opts.endpoint = target.attributes["href"].value;
+                    opts.endpoint = target.attributes['href'].value;
                     opts.push = true;
 
                     let protocol = opts.endpoint.split(':')[0];
-                    if(["mailto", "tel"].indexOf(protocol) !== -1) break;
+                    if(['mailto', 'tel'].indexOf(protocol) !== -1) break;
                     if(isExternal(opts.endpoint)) break;
 
                     e.preventDefault();
@@ -177,15 +184,7 @@ class Pjax {
 
     fadeContent(fadeTo) {
         document.getElementById(this.el).style.opacity = fadeTo;
-    };
+    }
 }
 
 export { Pjax };
-
-
-const isExternal = (url) => {
-    let match = url.match(/^([^:\/?#]+:)?(?:\/\/([^\/?#]*))?([^?#]+)?(\?[^#]*)?(#.*)?/);
-    if(typeof match[1] === "string" && match[1].length > 0 && match[1].toLowerCase() !== location.protocol) return true;
-    if(typeof match[2] === "string" && match[2].length > 0 && match[2].replace(new RegExp(":("+{"http:":80,"https:":443}[location.protocol]+")?$"), "") !== location.host) return true;
-    return false;
-};
