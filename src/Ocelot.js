@@ -105,6 +105,8 @@ class Pjax {
             while(target) {
                 if (target instanceof HTMLAnchorElement) {
                     opts.endpoint = target.attributes["href"].value;
+                    opts.push = true;
+
                     let protocol = opts.endpoint.split(':')[0];
                     if(["mailto", "tel"].indexOf(protocol) !== -1) break;
                     if(isExternal(opts.endpoint)) break;
@@ -144,6 +146,8 @@ class Pjax {
             while(target) {
                 if (target instanceof HTMLAnchorElement) {
                     opts.endpoint = target.attributes["href"].value;
+                    opts.push = true;
+
                     let protocol = opts.endpoint.split(':')[0];
                     if(["mailto", "tel"].indexOf(protocol) !== -1) break;
                     if(isExternal(opts.endpoint)) break;

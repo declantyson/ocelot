@@ -2,8 +2,8 @@
   * 
   *  Ocelot 
   *  Declan Tyson 
-  *  v0.3.7 
-  *  27/03/2017 
+  *  v0.3.8 
+  *  25/09/2017 
   * 
   */
 
@@ -162,6 +162,8 @@ var Pjax = function () {
                 while (target) {
                     if (target instanceof HTMLAnchorElement) {
                         opts.endpoint = target.attributes["href"].value;
+                        opts.push = true;
+
                         var protocol = opts.endpoint.split(':')[0];
                         if (["mailto", "tel"].indexOf(protocol) !== -1) break;
                         if (isExternal(opts.endpoint)) break;
@@ -207,6 +209,8 @@ var Pjax = function () {
                     if (target instanceof HTMLAnchorElement) {
                         var _ret = function () {
                             opts.endpoint = target.attributes["href"].value;
+                            opts.push = true;
+
                             var protocol = opts.endpoint.split(':')[0];
                             if (["mailto", "tel"].indexOf(protocol) !== -1) return 'break';
                             if (isExternal(opts.endpoint)) return 'break';
