@@ -29,7 +29,7 @@ Spice things up a bit with a fade:
 
 Visit the [legacy example site](http://declantyson.github.io/pjaxit/) for a brief overview of what PJAX is and why it's awesome. A more interesting example will come soon.
 
-### What happend to PJAXIT?
+### What happened to PJAXIT?
 
 This is PjaxIt evolved to make the process even easier. It's cleaner, more modern and contains built in functions to get you up and running faster than ever.
 
