@@ -1,0 +1,46 @@
+/*
+ *
+ *   Ocelot Example
+ *   Declan Tyson
+ *   v0.0.1
+ *   28/09/2017
+ *
+ */
+
+html, body {
+    margin: 0;
+    font-family: 'Alegraya Sans', sans-serif;
+    text-align: center;
+}
+
+section {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header {
+    padding: 40px;
+    margin: 0 20px;
+    border-bottom: solid 1px #cdcdcd;
+}
+
+header a {
+    color: #000000;
+    text-decoration: none;
+}
+
+footer {
+    padding: 40px;
+    margin: 0 20px;
+    border-top: solid 1px #cdcdcd;
+}
+
+h1 {
+    font-size: 48px;
+    margin: 0;
+}
+
+
+#ocelot-content {
+    padding: 40px;
+}
